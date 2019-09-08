@@ -4,23 +4,23 @@
 #[derive(Copy, Clone, Debug)]
 pub enum ItemType<'a> {
     /// Read as plaintext by the client
-    TextFile(SelectorItem<'a>),
+    TextFile(Selector<'a>),
     /// Used to navigate the server
-    Directory(SelectorItem<'a>),
+    Directory(Selector<'a>),
     /// Signals an error condition
-    Error(MessageItem<'a>),
+    Error(Message<'a>),
     /// A uuencoded file
-    UuFile(SelectorItem<'a>),
+    UuFile(Selector<'a>),
     /// Link to a telnet server
-    Telnet(TelnetItem<'a>),
+    Telnet(Telnet<'a>),
     /// A binary file
-    Binary(SelectorItem<'a>),
+    Binary(Selector<'a>),
     /// An image in the GIF format
-    Gif(SelectorItem<'a>),
+    Gif(Selector<'a>),
     /// Some kind of image file
-    Image(SelectorItem<'a>),
+    Image(Selector<'a>),
     /// Info line, not a link
-    Info(MessageItem<'a>),
+    Info(Message<'a>),
 }
 
 impl<'a> ItemType<'a> {
@@ -44,9 +44,9 @@ impl<'a> ItemType<'a> {
 /// 
 /// Element is a selector string
 #[derive(Copy, Clone, Debug)]
-pub struct SelectorItem<'a>(&'a str);
+pub struct Selector<'a>(pub &'a str);
 
-impl<'a> SelectorItem<'a> {
+impl<'a> Selector<'a> {
     /// Gets the selector of this item
     pub fn selector(&self) -> &'a str {
         self.0
@@ -57,9 +57,9 @@ impl<'a> SelectorItem<'a> {
 /// 
 /// Element is the message shown to the client
 #[derive(Copy, Clone, Debug)]
-pub struct MessageItem<'a>(&'a str);
+pub struct Message<'a>(pub &'a str);
 
-impl<'a> MessageItem<'a> {
+impl<'a> Message<'a> {
     /// Gets the message of this item
     pub fn message(&self) -> &'a str {
         self.0
@@ -70,9 +70,9 @@ impl<'a> MessageItem<'a> {
 /// 
 /// (host, port, login name)
 #[derive(Copy, Clone, Debug)]
-pub struct TelnetItem<'a>(&'a str, u32, &'a str);
+pub struct Telnet<'a>(pub &'a str, u32, &'a str);
 
-impl<'a> TelnetItem<'a> {
+impl<'a> Telnet<'a> {
     /// Gets the hostname/ip of the telnet connection
     pub fn host(&self) -> &'a str {
         self.0
