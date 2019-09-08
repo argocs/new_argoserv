@@ -1,6 +1,8 @@
 #![allow(unused)]
 /// Represents all supported Gopher protocol item types
-/// Some types are omitted due to being irrelevant today
+/// Some types are omitted due to being irrelevant today.
+/// 
+/// See RFC-1436 for reference
 #[derive(Copy, Clone, Debug)]
 pub enum ItemType<'a> {
     /// Read as plaintext by the client
@@ -70,7 +72,7 @@ impl<'a> Message<'a> {
 /// 
 /// (host, port, login name)
 #[derive(Copy, Clone, Debug)]
-pub struct Telnet<'a>(pub &'a str, u32, &'a str);
+pub struct Telnet<'a>(pub &'a str, pub u32, pub &'a str);
 
 impl<'a> Telnet<'a> {
     /// Gets the hostname/ip of the telnet connection
