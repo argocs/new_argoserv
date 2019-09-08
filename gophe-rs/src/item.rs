@@ -14,7 +14,7 @@ pub enum ItemType<'a> {
     /// A uuencoded file
     UuFile(Selector<'a>),
     /// Link to a telnet server
-    Telnet(Telnet<'a>),
+    Telnet(TelnetData<'a>),
     /// A binary file
     Binary(Selector<'a>),
     /// An image in the GIF format
@@ -33,7 +33,7 @@ impl<'a> ItemType<'a> {
             Self::Directory(_) => '1',
             Self::Error(_) => '3',
             Self::UuFile(_) => '6',
-            Self::Telnet(..) => '8',
+            Self::Telnet(_) => '8',
             Self::Binary(_) => '9',
             Self::Gif(_) => 'g',
             Self::Image(_) => 'I',
@@ -72,9 +72,9 @@ impl<'a> Message<'a> {
 /// 
 /// (host, port, login name)
 #[derive(Copy, Clone, Debug)]
-pub struct Telnet<'a>(pub &'a str, pub u32, pub &'a str);
+pub struct TelnetData<'a>(pub &'a str, pub u32, pub &'a str);
 
-impl<'a> Telnet<'a> {
+impl<'a> TelnetData<'a> {
     /// Gets the hostname/ip of the telnet connection
     pub fn host(&self) -> &'a str {
         self.0
