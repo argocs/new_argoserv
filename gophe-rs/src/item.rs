@@ -1,6 +1,6 @@
 #![allow(unused)]
 
-use std::convert::TryFrom;
+use std::str::FromStr;
 
 /// Represents all supported Gopher protocol item types
 /// Some types are omitted due to being irrelevant today.
@@ -45,13 +45,10 @@ impl<'a> GopherItem<'a> {
     }
 }
 
-impl<'a> TryFrom<&'a str> for GopherItem<'a> {
-    //I'm not sure how to use this, the compiler tells me about phasing out
-    //ambiguous associated types. I don't want to #[allow(...)], that seems
-    //unnecessary
-    type Error = &'static str;
+impl<'a> FromStr for GopherItem<'a> {
+    type Err = &'static str;
 
-    fn try_from(from: &'a str) -> Result<Self, &'static str> {
+    fn from_str(from: &str) -> Result<Self, Self::Err> {
         let marker = from.chars().nth(0);
         if marker.is_none() {
             return Err("TODO MESSAGE: Missing content in string.")
