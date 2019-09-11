@@ -1,10 +1,13 @@
 #![allow(unused)]
+
+use std::convert::TryFrom;
+
 /// Represents all supported Gopher protocol item types
 /// Some types are omitted due to being irrelevant today.
 /// 
 /// See RFC-1436 for reference
 #[derive(Copy, Clone, Debug)]
-pub enum ItemType<'a> {
+pub enum GopherItem<'a> {
     /// Read as plaintext by the client
     TextFile(Selector<'a>),
     /// Used to navigate the server
@@ -25,7 +28,7 @@ pub enum ItemType<'a> {
     Info(Message<'a>),
 }
 
-impl<'a> ItemType<'a> {
+impl<'a> GopherItem<'a> {
     /// Returns the item prefix as assigned by RFC-1436 for this ItemType
     pub fn to_char(&self) -> char {
         match self {
@@ -38,6 +41,51 @@ impl<'a> ItemType<'a> {
             Self::Gif(_) => 'g',
             Self::Image(_) => 'I',
             Self::Info(_) => 'i',
+        }
+    }
+}
+
+impl<'a> TryFrom<&'a str> for GopherItem<'a> {
+    //I'm not sure how to use this, the compiler tells me about phasing out
+    //ambiguous associated types. I don't want to #[allow(...)], that seems
+    //unnecessary
+    type Error = &'static str;
+
+    fn try_from(from: &'a str) -> Result<Self, &'static str> {
+        let marker = from.chars().nth(0);
+        if marker.is_none() {
+            return Err("TODO MESSAGE: Missing content in string.")
+        }
+
+        match marker.unwrap() {
+            '0' => {
+                unimplemented!()
+            },
+            '1' => {
+                unimplemented!()
+            },
+            '3' => {
+                unimplemented!()
+            },
+            '6' => {
+                unimplemented!()
+            },
+            '8' => {
+                unimplemented!()
+            },
+            '9' => {
+                unimplemented!()
+            },
+            'g' => {
+                unimplemented!()
+            },
+            'I' => {
+                unimplemented!()
+            },
+            'i' => {
+                unimplemented!()
+            },
+            _ => Err("Invalid gopher item type. One of: 0, 1, 3, 6, 8, 9, g, I, i. See RFC-1436"),
         }
     }
 }
